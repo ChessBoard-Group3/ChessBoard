@@ -1,0 +1,22 @@
+#chess-board{
+    margin: 50px;
+    width: 600px;
+    height: 600px;
+    border: solid;
+}
+
+.square{
+    width: 75px;
+    height: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.row{
+    display: flex;
+}
+
+.piece-image {
+    width: 60px;
+    height: 60px;
+}
