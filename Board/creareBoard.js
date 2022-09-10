@@ -84,25 +84,32 @@ function Board() {
 
 function Row(line) {
     this.line = line
-    rowElement = document.createElement('div')
-    rowElement.className = 'row'
-    rowElement.style.flexDirection = this.line % 2 == 0 ? '' : 'row-reverse'
-    rowElement.style.display = "flex"
-    return rowElement
+    this.rowElement = document.createElement('div')
+
+    this.render = function render() {
+        this.rowElement.style.flexDirection = this.line % 2 == 0 ? '' : 'row-reverse'
+        this.rowElement.style.display = "flex"
+        return this.rowElement
+    }
+    return this.render()
 }
 
 function Square(x = 0, y = 0, color = "#8B4513") {
     this.x = x
     this.y = y
     this.color = color
-    square = document.createElement('div')
-    square.style.backgroundColor = this.color
-    square.style.width = "75px"
-    square.style.height = "75px"
-    square.style.display = "flex"
-    square.style.justifyContent  = "center"
-    square.style.alignItem = "center"
-    return square
+    this.square = document.createElement('div')
+    
+    this.render = function render() {
+        this.square.style.backgroundColor = this.color
+        this.square.style.width = "75px"
+        this.square.style.height = "75px"
+        this.square.style.display = "flex"
+        this.square.style.justifyContent  = "center"
+        this.square.style.alignItems = "center"
+        return this.square
+    }
+    return this.render()
 }
 
 function Spot(x, y, piece)

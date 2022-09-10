@@ -3,4 +3,5 @@ function Piece(isWhite, name, isAlive = true, image) {
     this.name = name;
     this.isAlive = isAlive;
     this.image = image;
+
 }
