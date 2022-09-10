@@ -59,17 +59,13 @@ function Board() {
 
     this.createBoard = function() {
         const boxes = this.boxes
-        // console.log(boxes)
+
         var board = document.getElementById('chess-board')
 
         for(var i = 0; i < this.row; i++) {
-            var rowElement = document.createElement('div')
-            rowElement.className = 'row'
-            rowElement.style.flexDirection = i % 2 == 0 ? '' : 'row-reverse'
-            for(var j = 0; j < this.col; j++) {
-                var square = document.createElement('div')
-                square.className = 'square'
-                square.style.backgroundColor = j % 2 == 0 ? '#8B4513' : '#FFE4C4'
+            var rowElement = new Row(i)
+            for(var j = 0; j < this.col; j++) {              
+                var square = new Square(i, j, j % 2 == 0 ? '#8B4513' : '#FFE4C4')
                 const currentPiece = boxes[i][j]
                 // render chess
                 if (currentPiece) {
@@ -84,6 +80,29 @@ function Board() {
             board.appendChild(rowElement)
         }
     }
+}
+
+function Row(line) {
+    this.line = line
+    rowElement = document.createElement('div')
+    rowElement.className = 'row'
+    rowElement.style.flexDirection = this.line % 2 == 0 ? '' : 'row-reverse'
+    rowElement.style.display = "flex"
+    return rowElement
+}
+
+function Square(x = 0, y = 0, color = "#8B4513") {
+    this.x = x
+    this.y = y
+    this.color = color
+    square = document.createElement('div')
+    square.style.backgroundColor = this.color
+    square.style.width = "75px"
+    square.style.height = "75px"
+    square.style.display = "flex"
+    square.style.justifyContent  = "center"
+    square.style.alignItem = "center"
+    return square
 }
 
 function Spot(x, y, piece)
