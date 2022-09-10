@@ -69,11 +69,7 @@ function Board() {
                 const currentPiece = boxes[i][j]
                 // render chess
                 if (currentPiece) {
-                    const imgElement = document.createElement("img")
-                    imgElement.setAttribute("src", currentPiece.image)
-                    imgElement.className = "piece-image"
-
-                    square.appendChild(imgElement)
+                    square.appendChild(currentPiece.render())
                 }
                 rowElement.appendChild(square) 
             }
