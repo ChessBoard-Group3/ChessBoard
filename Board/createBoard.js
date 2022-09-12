@@ -65,13 +65,13 @@ function Board() {
         for(var i = 0; i < this.row; i++) {
             var rowElement = new Row(i)
             for(var j = 0; j < this.col; j++) {              
-                var square = new Square(i, j, j % 2 == 0 ? '#8B4513' : '#FFE4C4')
+                var squareElement = new Square(i, j, j % 2 == 0 ? '#8B4513' : '#FFE4C4')
                 const currentPiece = boxes[i][j]
                 // render chess
                 if (currentPiece) {
-                    square.appendChild(currentPiece.render())
+                    squareElement.appendChild(currentPiece.render())
                 }
-                rowElement.appendChild(square) 
+                rowElement.appendChild(squareElement) 
             }
             board.appendChild(rowElement)
         }
@@ -85,6 +85,7 @@ function Row(line) {
     this.render = function render() {
         this.rowElement.style.flexDirection = this.line % 2 == 0 ? '' : 'row-reverse'
         this.rowElement.style.display = "flex"
+        this.rowElement.attributes.data = this
         return this.rowElement
     }
     return this.render()
@@ -103,6 +104,8 @@ function Square(x = 0, y = 0, color = "#8B4513") {
         this.square.style.display = "flex"
         this.square.style.justifyContent  = "center"
         this.square.style.alignItems = "center"
+        this.square.style.border = "1px solid"
+        this.square.attributes.data = this
         return this.square
     }
     return this.render()
@@ -115,9 +118,9 @@ function Spot(x, y, piece)
     this.piece = piece
 }
 
-var game = new Board()
-game.begin()
-game.createBoard()
+let chessBoard = new Board()
+chessBoard.begin()
+chessBoard.createBoard()
 
 
 

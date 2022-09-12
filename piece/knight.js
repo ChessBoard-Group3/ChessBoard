@@ -9,3 +9,4 @@ function Knight(isWhite, isAlive = true) {
         let valiMoveY = [-1,  1,  2, 2, 1, -1, -2, -2]
     }
 }
+

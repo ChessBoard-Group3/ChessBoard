@@ -19,5 +19,3 @@ function Rook(isWhite, isAlive = true) {
         }
     }
 }
-const test = new Rook()
-test.move()
