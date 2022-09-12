@@ -1,4 +1,6 @@
-function Piece(isWhite, name, isAlive = true, image) {
+function Piece(x = 0, y = 0, isWhite = "white", name, isAlive = true, image) {
+    this.x = x
+    this.y = y
     this.isWhite = isWhite;
     this.name = name;
     this.isAlive = isAlive;
@@ -14,13 +16,19 @@ function Piece(isWhite, name, isAlive = true, image) {
         return this.block
     }
 
+    this.renderAvailableMove = function renderAvailableMove() {
+        
+    }
+
     this.toggleAvailabeMoveChess = function toggleAvailabeMoveChess() {
         if(this.isSelected) {
-            this.block.style.marginBottom = "10px"
-            chessBoard.rows[0][4].style.backgroundColor = "green"
+            this.block.style.marginBottom = "15px"
+            console.log([this.x, this.y])
+            chessBoard.rows[this.x][this.y].style.backgroundColor = "green"
         }
         else {
             this.block.style.marginBottom = "0"
+            chessBoard.rows[this.x][this.y].style.backgroundColor = chessBoard.rows[this.x][this.y].attributes.data.color
         }
     }
     this.block.addEventListener("click", clickHandle.bind(this))
@@ -30,4 +38,5 @@ function Piece(isWhite, name, isAlive = true, image) {
 function clickHandle() {    
     this.isSelected = !this.isSelected
     this.toggleAvailabeMoveChess()
+    // this.renderMove()
 }

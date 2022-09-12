@@ -1,8 +1,8 @@
-function Queen(isWhite, isAlive = true) {
+function Queen(x, y, isWhite, isAlive = true) {
     const pieceName = "queen"
-    const queenImage = isWhite ? './image/white_queen.png' : './image/black_queen.png'
+    const queenImage = isWhite == "white" ? './image/white_queen.png' : './image/black_queen.png'
 
-    Piece.call(this, isWhite, pieceName, isAlive, queenImage)
+    Piece.call(this, x, y, isWhite, pieceName, isAlive, queenImage)
 
     this.move = function move() {
         let moveX = []

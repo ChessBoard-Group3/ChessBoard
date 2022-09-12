@@ -1,8 +1,8 @@
-function Rook(isWhite, isAlive = true) {
+function Rook(x, y, isWhite, isAlive = true) {
     const pieceName = "rook"
-    const rookImage = isWhite ? './image/white_rook.png' : './image/black_rook.png'
+    const rookImage = isWhite == "white" ? './image/white_rook.png' : './image/black_rook.png'
 
-    Piece.call(this, isWhite, pieceName, isAlive, rookImage)
+    Piece.call(this, x, y, isWhite, pieceName, isAlive, rookImage)
 
     this.move = function move() {
         let moveX = []
