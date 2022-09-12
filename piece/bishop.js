@@ -1,4 +1,4 @@
-function Bishop(x = 0, y = 0, isWhite, isAlive = true) {
+function Bishop(isWhite, isAlive = true) {
     const pieceName = "bishop"
     const bishopImage = isWhite ? './image/white_bishop.png' : './image/black_bishop.png'
 
