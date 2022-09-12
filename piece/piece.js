@@ -17,6 +17,7 @@ function Piece(isWhite, name, isAlive = true, image) {
     this.toggleAvailabeMoveChess = function toggleAvailabeMoveChess() {
         if(this.isSelected) {
             this.block.style.marginBottom = "10px"
+            chessBoard.rows[0][4].style.backgroundColor = "green"
         }
         else {
             this.block.style.marginBottom = "0"

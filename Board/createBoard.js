@@ -3,6 +3,8 @@ function Board() {
     this.col = 8
     this.row = 8
     this.boxes = null
+    this.squares = []
+    this.rows = []
 
     // put chess in board
     this.begin = function() {
@@ -60,20 +62,26 @@ function Board() {
     this.createBoard = function() {
         const boxes = this.boxes
 
-        var board = document.getElementById('chess-board')
+        var boardElement = document.getElementById('chess-board')
+        
 
         for(var i = 0; i < this.row; i++) {
-            var rowElement = new Row(i)
-            for(var j = 0; j < this.col; j++) {              
-                var squareElement = new Square(i, j, j % 2 == 0 ? '#8B4513' : '#FFE4C4')
+            var row = new Row(i)
+            this.rows.push(row)
+            for(var j = 0; j < this.col; j++) {            
+                var square = new Square(i, j, j % 2 == 0 ? '#8B4513' : '#FFE4C4')
                 const currentPiece = boxes[i][j]
                 // render chess
                 if (currentPiece) {
-                    squareElement.appendChild(currentPiece.render())
+                    square.appendChild(currentPiece.render())
                 }
-                rowElement.appendChild(squareElement) 
+                // this.squares[j] = currentPiece
+                this.squares.push(square)
+                this.rows[i][j] = this.squares[j]
+                row.appendChild(square)
             }
-            board.appendChild(rowElement)
+
+            boardElement.appendChild(row)
         }
     }
 }
@@ -118,9 +126,6 @@ function Spot(x, y, piece)
     this.piece = piece
 }
 
-let chessBoard = new Board()
-chessBoard.begin()
-chessBoard.createBoard()
 
 
 
