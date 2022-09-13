@@ -40,11 +40,11 @@ function Board() {
         currentBoard[7][2] = new Bishop(7, 2, "black")
         currentBoard[7][5] = new Bishop(7, 5, "black")
         // create white king
-        currentBoard[0][3] = new King(0, 3, "white")
+        currentBoard[0][4] = new King(0, 4, "white")
         // create black king
         currentBoard[7][4] = new King(7, 4, "black")
         // create white queen
-        currentBoard[0][4] = new Queen(0, 4, "white")
+        currentBoard[0][3] = new Queen(0, 3, "white")
         // create black queen
         currentBoard[7][3] = new Queen(7, 3, "black")
 
@@ -115,6 +115,3 @@ function Square(x = 0, y = 0, color = "#8B4513") {
     }
     return this.render()
 }
-
-
-

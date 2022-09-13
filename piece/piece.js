@@ -1,7 +1,7 @@
-function Piece(x = 0, y = 0, isWhite = "white", name, isAlive = true, image) {
+function Piece(x = 0, y = 0, color = "white", name, isAlive = true, image) {
     this.x = x
     this.y = y
-    this.isWhite = isWhite;
+    this.color = color;
     this.name = name;
     this.isAlive = isAlive;
     this.image = image;
@@ -16,20 +16,30 @@ function Piece(x = 0, y = 0, isWhite = "white", name, isAlive = true, image) {
         return this.block
     }
 
-    this.renderAvailableMove = function renderAvailableMove() {
-        
+    this.renderAvailableMove = function renderAvailableMove(moveX, moveY) {
+        for(let i = 0; i < moveX.length; i++) {
+            let movex = this.x + moveX[i]
+            let movey = this.y + moveY[i]
+            console.log([this.x + movex, this.y + movey])
+            if(this.isSelected) {
+                chessBoard.rows[movex][movey].style.backgroundColor = "#56d556"
+                chessBoard.rows[movex][movey].style.cursor = "pointer"
+            }
+            else {
+                chessBoard.rows[movex][movey].style.backgroundColor = chessBoard.rows[movex][movey].attributes.data.color
+                chessBoard.rows[movex][movey].style.cursor = "auto"
+            }
+        }
     }
 
     this.toggleAvailabeMoveChess = function toggleAvailabeMoveChess() {
         if(this.isSelected) {
             this.block.style.marginBottom = "15px"
-            console.log([this.x, this.y])
-            chessBoard.rows[this.x][this.y].style.backgroundColor = "green"
         }
         else {
             this.block.style.marginBottom = "0"
-            chessBoard.rows[this.x][this.y].style.backgroundColor = chessBoard.rows[this.x][this.y].attributes.data.color
         }
+        this.findAvailableMovePosition()
     }
     this.block.addEventListener("click", clickHandle.bind(this))
 
@@ -38,5 +48,4 @@ function Piece(x = 0, y = 0, isWhite = "white", name, isAlive = true, image) {
 function clickHandle() {    
     this.isSelected = !this.isSelected
     this.toggleAvailabeMoveChess()
-    // this.renderMove()
 }
