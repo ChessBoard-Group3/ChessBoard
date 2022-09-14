@@ -18,23 +18,28 @@ function Piece(x = 0, y = 0, color = "white", name, isAlive = true, image) {
 
     this.renderAvailableMove = function renderAvailableMove(moveX, moveY) {
         for(let i = 0; i < moveX.length; i++) {
-            let movex = this.x + moveX[i]
-            let movey = this.y + moveY[i]
-            console.log([this.x + movex, this.y + movey])
+            let positionX = this.x + moveX[i]
+            let positionY = this.y + moveY[i]
+            let squareElement = chessBoard.rows[positionX][positionY]
             if(this.isSelected) {
-                chessBoard.rows[movex][movey].style.backgroundColor = "#56d556"
-                chessBoard.rows[movex][movey].style.cursor = "pointer"
+                if(squareElement.hasChildNodes() && squareElement.firstChild.attributes.data.color != this.color) {
+                    squareElement.style.backgroundColor = "red"
+                }
+                else {
+                    squareElement.style.backgroundColor = "#56d556"
+                }
+                squareElement.style.cursor = "pointer"
             }
             else {
-                chessBoard.rows[movex][movey].style.backgroundColor = chessBoard.rows[movex][movey].attributes.data.color
-                chessBoard.rows[movex][movey].style.cursor = "auto"
+                squareElement.style.backgroundColor = squareElement.attributes.data.color
+                squareElement.style.cursor = "auto"
             }
         }
     }
 
     this.toggleAvailabeMoveChess = function toggleAvailabeMoveChess() {
         if(this.isSelected) {
-            this.block.style.marginBottom = "15px"
+            this.block.style.marginBottom = "20px"
         }
         else {
             this.block.style.marginBottom = "0"

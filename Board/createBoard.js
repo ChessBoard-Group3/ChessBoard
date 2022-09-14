@@ -48,6 +48,11 @@ function Board() {
         // create black queen
         currentBoard[7][3] = new Queen(7, 3, "black")
 
+        currentBoard[4][4] = new Queen(4, 4, "white")
+        currentBoard[5][2] = new Pawn(5, 2, "black")
+        // currentBoard[2][5] = new Pawn(2, 5, "black")
+
+
         this.boxes = currentBoard
 
         // console.log(this.boxes)
