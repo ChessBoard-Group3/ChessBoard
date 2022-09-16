@@ -3,35 +3,59 @@ function Pawn(x, y, color, isAlive = true) {
     const pawnImage = color == "white" ? './image/white_pawn.png' : './image/black_pawn.png'
     
     Piece.call(this, x, y, color, pieceName, isAlive, pawnImage)
-    this.move = function move() {
+    this.addListsDirection = function addListsDirection() {
         if (color === 'white') {
-            this.moveX = [1]
-            this.moveY = [0]
+            this.listXDirection = [1]
+            this.listYDirection = [0]
+            if(x === 1) {
+                this.listXDirection.push(2)
+                this.listYDirection.push(0)
+            }
+            this.listXDirection.push(1)
+            this.listYDirection.push(1)
+            this.listXDirection.push(1)
+            this.listYDirection.push(-1)
         }
         else {
-            this.moveX = [-1]
-            this.moveY = [0]
+            this.listXDirection = [-1]
+            this.listYDirection = [0]
+            if(x === 6) {
+                this.listXDirection.push(-2)
+                this.listYDirection.push(0)
+            }
+            this.listXDirection.push(-1)
+            this.listYDirection.push(1)
+            this.listXDirection.push(-1)
+            this.listYDirection.push(-1)
         }
     }
-    this.findAvailableMovePosition = function findAvailableMoveKnightPosition() {
-        this.move()
+    this.findAvailableMovePosition = function findAvailableMovePosition() {
+        this.addListsDirection()
         let availableMoveX = []
         let availableMoveY = []
-        for (let i = 0; i < this.moveX.length; i++) {
-            if (x + this.moveX[i] >= 0 && x + this.moveX[i] < chessBoard.col && y + this.moveY[i] >= 0 && y + this.moveY[i] < chessBoard.col
-                && !chessBoard.rows[x + this.moveX[i]][y + this.moveY[i]].hasChildNodes()) {
-                if (color === 'white' && x === 1) {
-                    availableMoveX.push(2)
-                    availableMoveY.push(0)
+        let availableKillX = []
+        let availableKillY = []
+        let flagHasPieceFirst = false
+        for (let i = 0; i < this.listXDirection.length; i++) {
+            if (x + this.listXDirection[i] >= 0 && x + this.listXDirection[i] < chessBoard.col && y + this.listYDirection[i] >= 0 && y + this.listYDirection[i] < chessBoard.col) {
+                let squareElement = chessBoard.rows[x + this.listXDirection[i]][y + this.listYDirection[i]]
+                if(!squareElement.hasChildNodes() && !flagHasPieceFirst) {
+                    if(i < this.listXDirection.length - 2) {
+                        availableMoveX.push(this.listXDirection[i])
+                        availableMoveY.push(this.listYDirection[i])
+                    }
                 }
-                else if (color === 'black' && x === 6) {
-                    availableMoveX.push(-2)
-                    availableMoveY.push(0)
+                else {
+                    flagHasPieceFirst = true
                 }
-                availableMoveX.push(this.moveX[i])
-                availableMoveY.push(this.moveY[i])
+
+                if(i >= this.listXDirection.length - 2 && squareElement.hasChildNodes() && squareElement.firstChild.attributes.data.color != color) {
+                    availableKillX.push(this.listXDirection[i])
+                    availableKillY.push(this.listYDirection[i])
+                }
             }
         }
         this.renderAvailableMove(availableMoveX, availableMoveY)
+        this.renderAvailableKill(availableKillX, availableKillY)
     }
 }

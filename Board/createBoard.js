@@ -2,22 +2,22 @@
 function Board() {
     this.col = 8
     this.row = 8
-    this.boxes = null
+    this.boxesChess = null
     this.squares = []
     this.rows = []
 
     // put chess in board
-    this.begin = function() {
-        var currentBoard = []
-        for(var i = 0; i < this.row; i++) {
+    this.putChessToBoard = function() {
+        let currentBoard = []
+        for(let i = 0; i < this.row; i++) {
             const rowChess = []
-            for(var j = 0; j < this.col; j++) {
+            for(let j = 0; j < this.col; j++) {
 
                 rowChess[j] = undefined
             }
             currentBoard.push(rowChess)
         }
-        for(var j = 0; j < this.col; j++) {
+        for(let j = 0; j < this.col; j++) {
             currentBoard[1][j] = new Pawn(1, j, "white")
             currentBoard[6][j] = new Pawn(6, j, "black")
         }
@@ -48,26 +48,24 @@ function Board() {
         // create black queen
         currentBoard[7][3] = new Queen(7, 3, "black")
 
-        currentBoard[4][4] = new Queen(4, 4, "white")
-        currentBoard[5][2] = new Pawn(5, 2, "black")
-        // currentBoard[2][5] = new Pawn(2, 5, "black")
+        // currentBoard[3][3] = new Knight(3, 3, "white")
+        // currentBoard[5][2] = new Pawn(5, 2, "white")
 
+        this.boxesChess = currentBoard
 
-        this.boxes = currentBoard
-
-        // console.log(this.boxes)
+        // console.log(this.boxesChess)
     }
 
     this.createBoard = function() {
-        const boxes = this.boxes
+        const boxes = this.boxesChess
 
-        var boardElement = document.getElementById('chess-board')
+        let boardElement = document.getElementById('chess-board')
         
 
-        for(var i = 0; i < this.row; i++) {
-            var row = new Row(i)
+        for(let i = 0; i < this.row; i++) {
+            let row = new Row(i)
             this.rows.push(row)
-            for(var j = 0; j < this.col; j++) {            
+            for(let j = 0; j < this.col; j++) {            
                 let color = '#8B4513'
                 if(i % 2 == 0) {
                     color = j % 2 == 0 ? '#8B4513' : '#FFE4C4'
@@ -75,11 +73,11 @@ function Board() {
                 else {
                     color = j % 2 == 0 ? '#FFE4C4' : '#8B4513'
                 }
-                var square = new Square(i, j, color)
+                let square = new Square(i, j, color)
                 const currentPiece = boxes[i][j]
                 // render chess
                 if (currentPiece) {
-                    square.appendChild(currentPiece.render())
+                    square.appendChild(currentPiece.renderChess())
                 }
                 this.rows[i][j] = square
                 row.appendChild(square)
@@ -93,30 +91,29 @@ function Row(line) {
     this.line = line
     this.rowElement = document.createElement('div')
 
-    this.render = function render() {
+    this.renderRow = function renderRow() {
         this.rowElement.style.display = "flex"
         this.rowElement.attributes.data = this
         return this.rowElement
     }
-    return this.render()
+    return this.renderRow()
 }
 
 function Square(x = 0, y = 0, color = "#8B4513") {
     this.x = x
     this.y = y
     this.color = color
-    this.square = document.createElement('div')
-    this.tien = "tien"
-    this.render = function render() {
-        this.square.style.backgroundColor = this.color
-        this.square.style.width = "75px"
-        this.square.style.height = "75px"
-        this.square.style.display = "flex"
-        this.square.style.justifyContent  = "center"
-        this.square.style.alignItems = "center"
-        this.square.style.border = "1px solid"
-        this.square.attributes.data = this
-        return this.square
+    this.squareElement = document.createElement('div')
+    this.renderSquare = function renderSquare() {
+        this.squareElement.style.backgroundColor = this.color
+        this.squareElement.style.width = "75px"
+        this.squareElement.style.height = "75px"
+        this.squareElement.style.display = "flex"
+        this.squareElement.style.justifyContent  = "center"
+        this.squareElement.style.alignItems = "center"
+        this.squareElement.style.border = "1px solid"
+        this.squareElement.attributes.data = this
+        return this.squareElement
     }
-    return this.render()
+    return this.renderSquare()
 }

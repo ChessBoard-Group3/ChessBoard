@@ -8,7 +8,7 @@ function Piece(x = 0, y = 0, color = "white", name, isAlive = true, image) {
     this.isSelected = false
     this.block = document.createElement("img")
 
-    this.render = function render() {
+    this.renderChess = function renderChess() {
         this.block.setAttribute("src", this.image)
         this.block.className = "piece-image"
         this.block.style.cursor = "pointer"
@@ -22,13 +22,25 @@ function Piece(x = 0, y = 0, color = "white", name, isAlive = true, image) {
             let positionY = this.y + moveY[i]
             let squareElement = chessBoard.rows[positionX][positionY]
             if(this.isSelected) {
-                if(squareElement.hasChildNodes() && squareElement.firstChild.attributes.data.color != this.color) {
-                    squareElement.style.backgroundColor = "red"
-                }
-                else {
-                    squareElement.style.backgroundColor = "#56d556"
-                }
+                squareElement.style.backgroundColor = "#56d556"
                 squareElement.style.cursor = "pointer"
+                // squareElement.addEventListener("click", moveChess(squareElement))
+            }
+            else {
+                squareElement.style.backgroundColor = squareElement.attributes.data.color
+                squareElement.style.cursor = "auto"
+            }
+        }
+    }
+    this.renderAvailableKill = function renderAvailableKill(moveX, moveY) {
+        for(let i = 0; i < moveX.length; i++) {
+            let positionX = this.x + moveX[i]
+            let positionY = this.y + moveY[i]
+            let squareElement = chessBoard.rows[positionX][positionY]
+            if(this.isSelected) {
+                squareElement.style.backgroundColor = "red"
+                squareElement.style.cursor = "pointer"
+                // squareElement.addEventListener("click", moveChess(squareElement))
             }
             else {
                 squareElement.style.backgroundColor = squareElement.attributes.data.color
@@ -46,11 +58,16 @@ function Piece(x = 0, y = 0, color = "white", name, isAlive = true, image) {
         }
         this.findAvailableMovePosition()
     }
-    this.block.addEventListener("click", clickHandle.bind(this))
+    this.block.addEventListener("click", selectChess.bind(this))
 
     
+    
 }
-function clickHandle() {    
+function selectChess() {    
     this.isSelected = !this.isSelected
     this.toggleAvailabeMoveChess()
 }
+
+// function moveChess(squareElement) {
+//     console.log(squareElement)
+// }

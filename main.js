@@ -1,4 +1,4 @@
 let chessBoard = new Board()
-chessBoard.begin()
+chessBoard.putChessToBoard()
 chessBoard.createBoard()
 // console.log(chessBoard.rows)
