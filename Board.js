@@ -12,8 +12,7 @@ function Board() {
         for(let i = 0; i < this.row; i++) {
             const rowChess = []
             for(let j = 0; j < this.col; j++) {
-
-                rowChess[j] = undefined
+                rowChess[j] = null
             }
             currentBoard.push(rowChess)
         }
@@ -48,61 +47,74 @@ function Board() {
         // create black queen
         currentBoard[7][3] = new Queen(7, 3, "black")
 
-        // currentBoard[3][3] = new Knight(3, 3, "white")
-        // currentBoard[5][2] = new Pawn(5, 2, "white")
+        currentBoard[3][3] = new Knight(3, 3, "white")
+        currentBoard[5][0] = new Pawn(5, 0, "black")
 
         this.boxesChess = currentBoard
-
         // console.log(this.boxesChess)
     }
 
     this.createBoard = function() {
-        const boxes = this.boxesChess
-
-        let boardElement = document.getElementById('chess-board')
-        
-
-        for(let i = 0; i < this.row; i++) {
-            let row = new Row(i)
-            this.rows.push(row)
-            for(let j = 0; j < this.col; j++) {            
-                let color = '#8B4513'
-                if(i % 2 == 0) {
-                    color = j % 2 == 0 ? '#8B4513' : '#FFE4C4'
-                }
-                else {
-                    color = j % 2 == 0 ? '#FFE4C4' : '#8B4513'
-                }
-                let square = new Square(i, j, color)
-                const currentPiece = boxes[i][j]
-                // render chess
-                if (currentPiece) {
-                    square.appendChild(currentPiece.renderChess())
-                }
-                this.rows[i][j] = square
-                row.appendChild(square)
+        let currentRows = []
+        for (let i = 0; i < this.row; i++) {
+            const row = new Row(i)
+            let currentSqares = []
+            for (let j = 0; j < this.row; j++) {
+                let color
+                let currentPiece = this.boxesChess[i][j]
+                if (i % 2 == 0) 
+                    color = j % 2 == 0 ? "#8B4513" : "#FFE4C4"
+                else
+                    color = j % 2 == 0 ? "#FFE4C4" : "#8B4513" 
+                const square = new Square(i, j, color)
+                square.piece = currentPiece
+                currentSqares.push(square)
             }
-            boardElement.appendChild(row)
+            row.squares = currentSqares
+            currentRows.push(row)
+        }
+        this.rows = currentRows
+    }
+
+    this.renderBoard = function() {
+        let chessBoard = document.getElementById("chess-board")
+        for(let row of this.rows) {
+            for(let square of row.squares) {
+                let piece = square.piece
+                if(piece) {
+                    square.squareElement.appendChild(piece.renderChess()) 
+                }
+                row.rowElement.appendChild(square.renderSquare())
+            }
+            chessBoard.appendChild(row.renderRow())
+        }
+    }
+
+    this.toggleAvailableSquare = function toggleAvailableSquare(isSelected, square, color) {
+        if(isSelected) {
+            square.squareElement.style.backgroundColor = color
+        }
+        else {
+            square.squareElement.style.backgroundColor= square.color
         }
     }
 }
 
-function Row(line) {
+function Row(line, square) {
     this.line = line
     this.rowElement = document.createElement('div')
-
     this.renderRow = function renderRow() {
         this.rowElement.style.display = "flex"
         this.rowElement.attributes.data = this
         return this.rowElement
     }
-    return this.renderRow()
 }
 
 function Square(x = 0, y = 0, color = "#8B4513") {
     this.x = x
     this.y = y
     this.color = color
+    this.piece = null
     this.squareElement = document.createElement('div')
     this.renderSquare = function renderSquare() {
         this.squareElement.style.backgroundColor = this.color
@@ -115,5 +127,7 @@ function Square(x = 0, y = 0, color = "#8B4513") {
         this.squareElement.attributes.data = this
         return this.squareElement
     }
-    return this.renderSquare()
+    // this.squareElement.onclick = function moveChess() {
+    //     console.log(this.squareElement)
+    // }
 }

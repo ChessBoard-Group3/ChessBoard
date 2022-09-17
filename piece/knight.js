@@ -20,9 +20,13 @@ function Knight(x, y, color, isAlive = true) {
         //Kill
         let availableKillX = []
         let availableKillY = []
+        
         for (let i = 0; i < this.listXDirection.length; i++) {
-            if (x + this.listXDirection[i] >= 0 && x + this.listXDirection[i] < chessBoard.col && y + this.listYDirection[i] >= 0 && y + this.listYDirection[i] < chessBoard.col) {
-                let squareElement = chessBoard.rows[x + this.listXDirection[i]][y + this.listYDirection[i]]
+            let positionX = x + this.listXDirection[i]
+            let positionY = y + this.listYDirection[i]
+            if (positionX >= 0 && positionX < chessBoard.col && positionY >= 0 
+            && positionY < chessBoard.col) {
+                let squareElement = chessBoard.rows[positionX].squares[positionY].squareElement
                 if (squareElement.hasChildNodes() && squareElement.firstChild.attributes.data.color != color) {
                     availableKillX.push(this.listXDirection[i])
                     availableKillY.push(this.listYDirection[i])
@@ -33,7 +37,13 @@ function Knight(x, y, color, isAlive = true) {
                 }
             }
         }
-        this.renderAvailableMove(availableMoveX, availableMoveY)
-        this.renderAvailableKill(availableKillX, availableKillY)
+        for (let i = 0; i < availableMoveX.length; i++) {
+            let square = chessBoard.rows[x + availableMoveX[i]].squares[y + availableMoveY[i]]
+            chessBoard.toggleAvailableSquare(this.isSelected, square, "#56d556")
+        }
+        for (let i = 0; i < availableKillX.length; i++) {
+            let square = chessBoard.rows[x + availableKillX[i]].squares[y + availableKillY[i]]
+            chessBoard.toggleAvailableSquare(this.isSelected, square, "red")
+        }
     }
 }

@@ -20,15 +20,14 @@ function Piece(x = 0, y = 0, color = "white", name, isAlive = true, image) {
         for(let i = 0; i < moveX.length; i++) {
             let positionX = this.x + moveX[i]
             let positionY = this.y + moveY[i]
-            let squareElement = chessBoard.rows[positionX][positionY]
+            let squareTemp = chessBoard.rows[positionX].squares[positionY]
             if(this.isSelected) {
-                squareElement.style.backgroundColor = "#56d556"
-                squareElement.style.cursor = "pointer"
-                // squareElement.addEventListener("click", moveChess(squareElement))
+                squareTemp.squareElement.style.backgroundColor = "#56d556"
+                squareTemp.squareElement.style.cursor = "pointer"
             }
             else {
-                squareElement.style.backgroundColor = squareElement.attributes.data.color
-                squareElement.style.cursor = "auto"
+                squareTemp.squareElement.style.backgroundColor = squareTemp.color
+                squareTemp.squareElement.style.cursor = "auto"
             }
         }
     }
@@ -36,15 +35,14 @@ function Piece(x = 0, y = 0, color = "white", name, isAlive = true, image) {
         for(let i = 0; i < moveX.length; i++) {
             let positionX = this.x + moveX[i]
             let positionY = this.y + moveY[i]
-            let squareElement = chessBoard.rows[positionX][positionY]
+            let squareTemp = chessBoard.rows[positionX].squares[positionY]
             if(this.isSelected) {
-                squareElement.style.backgroundColor = "red"
-                squareElement.style.cursor = "pointer"
-                // squareElement.addEventListener("click", moveChess(squareElement))
+                squareTemp.squareElement.style.backgroundColor = "red"
+                squareTemp.squareElement.style.cursor = "pointer"
             }
             else {
-                squareElement.style.backgroundColor = squareElement.attributes.data.color
-                squareElement.style.cursor = "auto"
+                squareTemp.squareElement.style.backgroundColor = squareTemp.color
+                squareTemp.squareElement.style.cursor = "auto"
             }
         }
     }
@@ -68,6 +66,5 @@ function selectChess() {
     this.toggleAvailabeMoveChess()
 }
 
-// function moveChess(squareElement) {
-//     console.log(squareElement)
-// }
+
+
