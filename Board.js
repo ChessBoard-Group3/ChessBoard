@@ -99,6 +99,28 @@ function Board() {
             square.squareElement.style.cursor = "auto"
         }
     }
+    this.deleteChess = function deleteChess(squareElement) {
+        let coordinate = {x: squareElement.attributes.data.x, y: squareElement.attributes.data.y}
+        // clear quân cờ trên ô dc click
+        chessBoard.rows[chessBoard.currentPieceMove[0].x].squares[chessBoard.currentPieceMove[0].y].piece = null
+        chessBoard.rows[coordinate.x].squares[coordinate.y].piece.isAlive = false
+
+        // chessBoard.boxesChess[coordinate.x][coordinate.y] = null
+        chessBoard.rows[coordinate.x].squares[coordinate.y].piece = null
+        chessBoard.rows[coordinate.x].squares[coordinate.y].squareElement.firstChild.remove()
+
+        chessBoard.currentPieceMove[0].x = coordinate.x
+        chessBoard.currentPieceMove[0].y = coordinate.y
+        chessBoard.currentPieceMove[0].isSelected = false
+
+        chessBoard.boxesChess[coordinate.x][coordinate.y] = chessBoard.currentPieceMove[0]
+        chessBoard.rows[coordinate.x].squares[coordinate.y].piece = chessBoard.currentPieceMove[0]
+
+        chessBoard.renderBoard()
+        chessBoard.currentPieceMove[0].toggleAvailabeMoveChess()
+        console.log(squareElement.attributes.data)
+    }
+
 }
 
 function Row(line, square) {
@@ -130,8 +152,6 @@ function Square(x = 0, y = 0, color = "#8B4513") {
     }
     this.squareElement.addEventListener('click', getSquare => {
         if (event.target.style.backgroundColor == SquareColor.Green) {
-            // console.log(chessBoard.currentPieceMove[0])
-            
             //get coordinate of square is selected
             let coordinate = {x: event.target.attributes.data.x, y: event.target.attributes.data.y}
 
@@ -148,13 +168,11 @@ function Square(x = 0, y = 0, color = "#8B4513") {
             chessBoard.boxesChess[coordinate.x][coordinate.y] = chessBoard.currentPieceMove[0]
             chessBoard.rows[coordinate.x].squares[coordinate.y].piece = chessBoard.currentPieceMove[0]
 
-            // console.log(chessBoard.boxesChess[coordinate.x][coordinate.y])
-
-            // chessBoard.initializeBoard()
             chessBoard.renderBoard()
             chessBoard.currentPieceMove[0].toggleAvailabeMoveChess()
-            console.log(chessBoard.currentPieceMove[0])
-            console.log(chessBoard.rows)
+        }
+        else if (event.target.style.backgroundColor == SquareColor.Red) {
+            chessBoard.deleteChess(event.target)
         }
     })
 }

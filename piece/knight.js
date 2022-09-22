@@ -23,7 +23,6 @@ function Knight(x, y, color, isAlive = true) {
         //Kill
         let availableKillX = []
         let availableKillY = []
-        console.log(this.x, this.y)
         
         for (let i = 0; i < this.listXDirection.length; i++) {
             let positionX = this.x + this.listXDirection[i]

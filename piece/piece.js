@@ -29,15 +29,18 @@ function Piece(x = 0, y = 0, color = "white", name, isAlive = true, image) {
     this.block.addEventListener("click", selectChess.bind(this))
 }
 function selectChess() {
-    chessBoard.renderBoard()
-    this.isSelected = !this.isSelected
-    if (this.isSelected) {
-        chessBoard.currentPieceMove.unshift(this)
-        console.log(this)
+    if (this.block.parentElement.style.backgroundColor == SquareColor.Red) {
+        chessBoard.deleteChess(this.block.parentElement)
     }
-    this.toggleAvailabeMoveChess()
-    this.findAvailableMovePosition()
-
+    else {
+        chessBoard.renderBoard()
+        this.isSelected = !this.isSelected
+        if (this.isSelected) {
+            chessBoard.currentPieceMove.unshift(this)
+        }
+        this.toggleAvailabeMoveChess()
+        this.findAvailableMovePosition()
+    }
 }
 
 
