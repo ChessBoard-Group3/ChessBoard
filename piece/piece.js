@@ -33,6 +33,11 @@ function selectChess() {
         chessBoard.deleteChess(this.block.parentElement)
     }
     else {
+        if(chessBoard.currentPieceMove[0] != this && chessBoard.currentPieceMove[0] && chessBoard.currentPieceMove[0].isSelected) {
+            chessBoard.currentPieceMove[0].isSelected = false
+            chessBoard.currentPieceMove[0].toggleAvailabeMoveChess()
+            chessBoard.currentPieceMove[0].findAvailableMovePosition()
+        } 
         chessBoard.renderBoard()
         this.isSelected = !this.isSelected
         if (this.isSelected) {
@@ -40,40 +45,7 @@ function selectChess() {
         }
         this.toggleAvailabeMoveChess()
         this.findAvailableMovePosition()
+        console.log(this)
+
     }
 }
-
-
-
-    // this.renderAvailableMove = function renderAvailableMove(moveX, moveY) {
-    //     for(let i = 0; i < moveX.length; i++) {
-    //         let positionX = this.x + moveX[i]
-    //         let positionY = this.y + moveY[i]
-    //         let squareTemp = chessBoard.rows[positionX].squares[positionY]
-    //         if(this.isSelected) {
-    //             squareTemp.squareElement.style.backgroundColor = "#56d556"
-    //             squareTemp.squareElement.style.cursor = "pointer"
-    //             squareTemp.squareElement.dispatchEvent(new Event('myEvent'))
-    //         }
-    //         else {
-    //             squareTemp.squareElement.style.backgroundColor = squareTemp.color
-    //             squareTemp.squareElement.style.cursor = "auto"
-    //         }
-    //     }
-    // }
-    // this.renderAvailableKill = function renderAvailableKill(moveX, moveY) {
-    //     for(let i = 0; i < moveX.length; i++) {
-    //         let positionX = this.x + moveX[i]
-    //         let positionY = this.y + moveY[i]
-    //         let squareTemp = chessBoard.rows[positionX].squares[positionY]
-    //         if(this.isSelected) {
-    //             squareTemp.squareElement.style.backgroundColor = "red"
-    //             squareTemp.squareElement.style.cursor = "pointer"
-    //             squareTemp.squareElement.dispatchEvent(new Event('click'))
-    //         }
-    //         else {
-    //             squareTemp.squareElement.style.backgroundColor = squareTemp.color
-    //             squareTemp.squareElement.style.cursor = "auto"
-    //         }
-    //     }
-    // }

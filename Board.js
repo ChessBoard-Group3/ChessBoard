@@ -159,11 +159,13 @@ function Square(x = 0, y = 0, color = "#8B4513") {
             // chessBoard.boxesChess[coordinate.x][coordinate.y] = null
             chessBoard.rows[chessBoard.currentPieceMove[0].x].squares[chessBoard.currentPieceMove[0].y].piece = null
 
+            chessBoard.currentPieceMove[0].isSelected = false
+            chessBoard.currentPieceMove[0].findAvailableMovePosition()
 
             chessBoard.currentPieceMove[0].x = coordinate.x
             chessBoard.currentPieceMove[0].y = coordinate.y
 
-            chessBoard.currentPieceMove[0].isSelected = false
+            
 
             chessBoard.boxesChess[coordinate.x][coordinate.y] = chessBoard.currentPieceMove[0]
             chessBoard.rows[coordinate.x].squares[coordinate.y].piece = chessBoard.currentPieceMove[0]
