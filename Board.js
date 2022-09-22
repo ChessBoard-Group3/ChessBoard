@@ -3,8 +3,9 @@ function Board() {
     this.col = 8
     this.row = 8
     this.boxesChess = null
-    this.squares = []
-    this.rows = []
+    this.squares = [] // Square[]
+    this.rows = [] // Row[]
+    this.currentPieceMove = []
 
     // put chess in board
     this.putChessToBoard = function() {
@@ -47,14 +48,13 @@ function Board() {
         // create black queen
         currentBoard[7][3] = new Queen(7, 3, "black")
 
-        currentBoard[3][3] = new Knight(3, 3, "white")
-        currentBoard[5][0] = new Pawn(5, 0, "black")
-
+        // currentBoard[4][4] = new Queen(4, 4, "white")
+        // currentBoard[5][0] = new Pawn(5, 0, "black")
         this.boxesChess = currentBoard
         // console.log(this.boxesChess)
     }
 
-    this.createBoard = function() {
+    this.initializeBoard = function() {
         let currentRows = []
         for (let i = 0; i < this.row; i++) {
             const row = new Row(i)
@@ -63,9 +63,9 @@ function Board() {
                 let color
                 let currentPiece = this.boxesChess[i][j]
                 if (i % 2 == 0) 
-                    color = j % 2 == 0 ? "#8B4513" : "#FFE4C4"
+                    color = j % 2 == 0 ? SquareColor.White : SquareColor.Black
                 else
-                    color = j % 2 == 0 ? "#FFE4C4" : "#8B4513" 
+                    color = j % 2 == 0 ? SquareColor.Black : SquareColor.White 
                 const square = new Square(i, j, color)
                 square.piece = currentPiece
                 currentSqares.push(square)
@@ -89,20 +89,21 @@ function Board() {
             chessBoard.appendChild(row.renderRow())
         }
     }
-
     this.toggleAvailableSquare = function toggleAvailableSquare(isSelected, square, color) {
         if(isSelected) {
             square.squareElement.style.backgroundColor = color
+            square.squareElement.style.cursor = "pointer"
         }
         else {
             square.squareElement.style.backgroundColor= square.color
+            square.squareElement.style.cursor = "auto"
         }
     }
 }
 
 function Row(line, square) {
     this.line = line
-    this.rowElement = document.createElement('div')
+    this.rowElement = document.createElement("div") 
     this.renderRow = function renderRow() {
         this.rowElement.style.display = "flex"
         this.rowElement.attributes.data = this
@@ -115,7 +116,7 @@ function Square(x = 0, y = 0, color = "#8B4513") {
     this.y = y
     this.color = color
     this.piece = null
-    this.squareElement = document.createElement('div')
+    this.squareElement = document.createElement("div") 
     this.renderSquare = function renderSquare() {
         this.squareElement.style.backgroundColor = this.color
         this.squareElement.style.width = "75px"
@@ -127,7 +128,34 @@ function Square(x = 0, y = 0, color = "#8B4513") {
         this.squareElement.attributes.data = this
         return this.squareElement
     }
-    // this.squareElement.onclick = function moveChess() {
-    //     console.log(this.squareElement)
-    // }
+    this.squareElement.addEventListener('click', getSquare => {
+        if (event.target.style.backgroundColor == SquareColor.Green) {
+            // console.log(chessBoard.currentPieceMove[0])
+            
+            //get coordinate of square is selected
+            let coordinate = {x: event.target.attributes.data.x, y: event.target.attributes.data.y}
+
+            // update boxesChess ans row
+            // chessBoard.boxesChess[coordinate.x][coordinate.y] = null
+            chessBoard.rows[chessBoard.currentPieceMove[0].x].squares[chessBoard.currentPieceMove[0].y].piece = null
+
+
+            chessBoard.currentPieceMove[0].x = coordinate.x
+            chessBoard.currentPieceMove[0].y = coordinate.y
+
+            chessBoard.currentPieceMove[0].isSelected = false
+
+            chessBoard.boxesChess[coordinate.x][coordinate.y] = chessBoard.currentPieceMove[0]
+            chessBoard.rows[coordinate.x].squares[coordinate.y].piece = chessBoard.currentPieceMove[0]
+
+            // console.log(chessBoard.boxesChess[coordinate.x][coordinate.y])
+
+            // chessBoard.initializeBoard()
+            chessBoard.renderBoard()
+            chessBoard.currentPieceMove[0].toggleAvailabeMoveChess()
+            console.log(chessBoard.currentPieceMove[0])
+            console.log(chessBoard.rows)
+        }
+    })
 }
+

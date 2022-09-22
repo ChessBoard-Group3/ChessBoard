@@ -1,13 +1,16 @@
 function Knight(x, y, color, isAlive = true) {
+    this.x = x
+    this.y = y
     const pieceName = "knight"
     const knightImage = color == "white" ? './image/white_knight.png' : './image/black_knight.png'
 
-    Piece.call(this, x, y, color, pieceName, isAlive, knightImage)
+    Piece.call(this, this.x, this.y = y, color, pieceName, isAlive, knightImage)
 
-    this.listXDirection = []
-    this.listYDirection = []
+
 
     this.addListsDirection = function addListsDirection() {
+        this.listXDirection = []
+        this.listYDirection = []
         this.listXDirection = [-2, -2, -1, 1, 2,  2,  1, -1]
         this.listYDirection = [-1,  1,  2, 2, 1, -1, -2, -2]
     }
@@ -20,10 +23,11 @@ function Knight(x, y, color, isAlive = true) {
         //Kill
         let availableKillX = []
         let availableKillY = []
+        console.log(this.x, this.y)
         
         for (let i = 0; i < this.listXDirection.length; i++) {
-            let positionX = x + this.listXDirection[i]
-            let positionY = y + this.listYDirection[i]
+            let positionX = this.x + this.listXDirection[i]
+            let positionY = this.y + this.listYDirection[i]
             if (positionX >= 0 && positionX < chessBoard.col && positionY >= 0 
             && positionY < chessBoard.col) {
                 let squareElement = chessBoard.rows[positionX].squares[positionY].squareElement
@@ -38,12 +42,15 @@ function Knight(x, y, color, isAlive = true) {
             }
         }
         for (let i = 0; i < availableMoveX.length; i++) {
-            let square = chessBoard.rows[x + availableMoveX[i]].squares[y + availableMoveY[i]]
-            chessBoard.toggleAvailableSquare(this.isSelected, square, "#56d556")
+            let square = chessBoard.rows[this.x + availableMoveX[i]].squares[this.y + availableMoveY[i]]
+            chessBoard.toggleAvailableSquare(this.isSelected, square, SquareColor.Green)
         }
         for (let i = 0; i < availableKillX.length; i++) {
-            let square = chessBoard.rows[x + availableKillX[i]].squares[y + availableKillY[i]]
-            chessBoard.toggleAvailableSquare(this.isSelected, square, "red")
+            let square = chessBoard.rows[this.x + availableKillX[i]].squares[this.y + availableKillY[i]]
+            chessBoard.toggleAvailableSquare(this.isSelected, square, SquareColor.Red)
         }
+
     }
 }
+        // this.renderAvailableMove(availableMoveX, availableMoveY)
+        // this.renderAvailableKill(availableKillX, availableKillY)

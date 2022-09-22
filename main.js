@@ -1,5 +1,5 @@
 let chessBoard = new Board()
 chessBoard.putChessToBoard()
-chessBoard.createBoard()
+chessBoard.initializeBoard()
 chessBoard.renderBoard()
 console.log(chessBoard.rows)
